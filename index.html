@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spin Bottle - QronSpin Klonu</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+body{background:#0f0f0f;color:#fff;font-family:Arial;display:flex;flex-direction:column;align-items:center}
+#table{position:relative;width:360px;height:500px;background:#1a1a1a;border-radius:50%;margin:20px;border:3px solid #333}
+.seat{position:absolute;width:50px;height:50px;background:#2a2a2a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;border:2px solid #444}
+#bottle{position:absolute;left:50%;top:50%;width:80px;height:20px;background:linear-gradient(90deg,#fff,#aaa);transform:translate(-50%,-50%);border-radius:10px;transform-origin:center;transition:transform 3s cubic-bezier(0.2,0.8,0.3,1)}
+#spinBtn{padding:15px 30px;background:#ffcc00;color:#000;border:none;border-radius:10px;font-size:18px;font-weight:bold}
+#info{margin-top:10px}
+</style>
+</head>
+<body>
+<h3>🍾 Spin The Bottle - 12 nəfər</h3>
+<div id="info">Bonus: <span id="bonus">5000</span> | Saatlıq: 200 | Mahnı: <span id="song">22222</span></div>
+<div id="table">
+<div id="bottle"></div>
+</div>
+<button id="spinBtn">Fırlat</button>
+
+<script>
+const table=document.getElementById('table');
+const seats=[
+// Üst sıra 4 nəfər
+{x:20,y:20},{x:110,y:10},{x:200,y:10},{x:290,y:20},
+// Orta 4 nəfər (2 sol, 2 sağ)
+{x:10,y:150},{x:10,y:300},{x:300,y:150},{x:300,y:300},
+// Alt sıra 4 nəfər
+{x:20,y:430},{x:110,y:440},{x:200,y:440},{x:290,y:430},
+];
+let songCount=22222;
+seats.forEach((p,i)=>{
+ let d=document.createElement('div');d.className='seat';d.style.left=p.x+'px';d.style.top=p.y+'px';d.innerText=(i+1);table.appendChild(d);
+});
+let angle=0;
+document.getElementById('spinBtn').onclick=()=>{
+ let rnd=Math.random()*360+1440;
+ angle+=rnd;
+ document.getElementById('bottle').style.transform=`translate(-50%,-50%) rotate(${angle}deg)`;
+ songCount++;
+ document.getElementById('song').innerText=songCount;
+ // 5-ci fırlatmada 22.227, 9-da 22.231 sənin istədiyin kimi
+ if(songCount==22227||songCount==22231){alert('⭐ Mahnı '+songCount+' çatdı!');}
+};
+if(window.Telegram?.WebApp){Telegram.WebApp.ready();}
+</script>
+</body>
+</html>
